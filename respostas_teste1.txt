@@ -1,0 +1,3 @@
+Qual seu nome? Resposta: João
+quem ganhou a copa de 2022? Resposta: argentina
+quanto vc gosta de pizza? Resposta: 5
