@@ -1,5 +1,5 @@
-#ifndef PERGUNTA_CPP
-#define PERGUNTA_CPP
+#ifndef PERGUNTA_CPP     // Verifica se ATUADOR_CPP não foi definido ainda
+#define PERGUNTA_CPP     // Define ATUADOR_CPP
 
 #include <iostream>
 #include <vector>
@@ -8,7 +8,6 @@
 
 using namespace std;
 
-// Classe base Pergunta
 class Pergunta {
 protected:
     string textoPergunta;
@@ -22,7 +21,6 @@ public:
     virtual void salvarResposta(ofstream& outFile) const = 0;
 };
 
-// Classe PerguntaAberta
 class PerguntaAberta : public Pergunta {
 private:
     string resposta;
@@ -31,7 +29,7 @@ public:
     PerguntaAberta(const string& texto) : Pergunta(texto) {}
 
     void exibirPergunta() const override {
-        cout << textoPergunta << " (resposta aberta): ";
+        cout << textoPergunta << " (Resposta aberta): ";
     }
 
     void registrarResposta() override {
@@ -39,18 +37,17 @@ public:
     }
 
     void salvarResposta(ofstream& outFile) const override {
-        outFile << "Resposta aberta: " << resposta << "\n";
+        outFile << textoPergunta << " Resposta: " << resposta << "\n";
     }
 };
 
-// Classe PerguntaMultiplaEscolha
 class PerguntaMultiplaEscolha : public Pergunta {
 private:
     vector<string> opcoes;
     int resposta;
 
 public:
-    PerguntaMultiplaEscolha(const string& texto, const vector<string>& opcoes)
+    PerguntaMultiplaEscolha(const string& texto, const vector<string>& opcoes) 
         : Pergunta(texto), opcoes(opcoes), resposta(-1) {}
 
     void exibirPergunta() const override {
@@ -58,39 +55,39 @@ public:
         for (size_t i = 0; i < opcoes.size(); ++i) {
             cout << i + 1 << ". " << opcoes[i] << "\n";
         }
+        cout << "Escolha uma opção: ";
     }
 
     void registrarResposta() override {
         cin >> resposta;
-        cin.ignore(); // Limpa o buffer de entrada
+        cin.ignore();
     }
 
     void salvarResposta(ofstream& outFile) const override {
-        outFile << "Resposta de múltipla escolha: " << resposta << "\n";
+        outFile << textoPergunta << " Resposta: " << opcoes[resposta - 1] << "\n";
     }
 };
 
-// Classe PerguntaEscala
 class PerguntaEscala : public Pergunta {
 private:
     int resposta;
     int escalaMin, escalaMax;
 
 public:
-    PerguntaEscala(const string& texto, int min, int max)
+    PerguntaEscala(const string& texto, int min, int max) 
         : Pergunta(texto), escalaMin(min), escalaMax(max), resposta(-1) {}
 
     void exibirPergunta() const override {
-        cout << textoPergunta << " (de " << escalaMin << " a " << escalaMax << "): ";
+        cout << textoPergunta << " (De " << escalaMin << " a " << escalaMax << "): ";
     }
 
     void registrarResposta() override {
         cin >> resposta;
-        cin.ignore(); // Limpa o buffer de entrada
+        cin.ignore();
     }
 
     void salvarResposta(ofstream& outFile) const override {
-        outFile << "Resposta de escala: " << resposta << "\n";
+        outFile << textoPergunta << " Resposta: " << resposta << "\n";
     }
 };
 
