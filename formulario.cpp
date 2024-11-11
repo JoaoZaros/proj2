@@ -42,11 +42,24 @@ public:
     }
 
     void salvarRespostas(const string& filename) const {
-        ofstream outFile(filename);
-        for (const Pergunta* pergunta : perguntas) {
-            pergunta->salvarResposta(outFile);
+    ofstream outFile(filename, ios::app);
+    if (outFile.is_open()) {
+        // Exibindo todas as perguntas e respostas agrupadas
+        for (size_t i = 0; i < perguntas.size(); ++i) {
+            perguntas[i]->salvarPergunta(outFile);  // Exibir a pergunta
         }
+        
+        // Gravando todas as respostas em sequência
+        outFile << "\n";
+        for (size_t i = 0; i < perguntas.size(); ++i) {
+            perguntas[i]->salvarResposta(outFile);  // Salvar a resposta
+        }
+
+        outFile.close();  // Fechar o arquivo após gravar
+    } else {
+        cout << "Erro ao abrir o arquivo para escrita!" << endl;
     }
+}
 
     string getNomeFormulario() const {
         return nomeFormulario;

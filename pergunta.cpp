@@ -1,5 +1,5 @@
-#ifndef PERGUNTA_CPP     // Verifica se ATUADOR_CPP não foi definido ainda
-#define PERGUNTA_CPP     // Define ATUADOR_CPP
+#ifndef PERGUNTA_CPP
+#define PERGUNTA_CPP
 
 #include <iostream>
 #include <vector>
@@ -18,7 +18,8 @@ public:
 
     virtual void exibirPergunta() const = 0;
     virtual void registrarResposta() = 0;
-    virtual void salvarResposta(ofstream& outFile) const = 0;
+    virtual void salvarResposta(ofstream& outFile) const = 0; // Função para salvar resposta
+    virtual void salvarPergunta(ofstream& outFile) const = 0;
 };
 
 class PerguntaAberta : public Pergunta {
@@ -36,8 +37,12 @@ public:
         getline(cin, resposta);
     }
 
+    void salvarPergunta(ofstream& outFile) const override {
+    outFile << "Pergunta Aberta: " << textoPergunta << "\n";
+    }
+    
     void salvarResposta(ofstream& outFile) const override {
-        outFile << textoPergunta << " Resposta: " << resposta << "\n";
+    outFile << "Resposta Aberta: " << resposta << "\n";  // Alterado para "Resposta Aberta"
     }
 };
 
@@ -63,8 +68,12 @@ public:
         cin.ignore();
     }
 
+    void salvarPergunta(ofstream& outFile) const override {
+    outFile << "Pergunta Multipla Escolha: " << textoPergunta << "\n";
+    }
+    
     void salvarResposta(ofstream& outFile) const override {
-        outFile << textoPergunta << " Resposta: " << opcoes[resposta - 1] << "\n";
+    outFile << "Resposta Múltipla Escolha: " << opcoes[resposta - 1] << "\n";  // Alterado para "Resposta Múltipla Escolha"
     }
 };
 
@@ -85,10 +94,15 @@ public:
         cin >> resposta;
         cin.ignore();
     }
+    
+    void salvarPergunta(ofstream& outFile) const override {
+    outFile << "Pergunta Escala: " << textoPergunta << "\n";
+    }
 
     void salvarResposta(ofstream& outFile) const override {
-        outFile << textoPergunta << " Resposta: " << resposta << "\n";
-    }
+    outFile << "Resposta Escala: " << resposta << "\n";  // Alterado para "Resposta Escala"
+}
+
 };
 
 #endif
